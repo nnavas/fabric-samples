@@ -1,20 +1,18 @@
 package com.example;
 
 import org.hyperledger.fabric.gateway.Identity;
-import org.hyperledger.fabric.gateway.X509Identity;
+import org.hyperledger.fabric.gateway.Network;
+import org.hyperledger.fabric.gateway.Contract;
+import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Identities;
-
+import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Enrollment;
-
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Hello world!
@@ -24,6 +22,9 @@ public class App {
     public static void main(String[] args) {
 
         String basePath = "/home/nono/HLF/fabric-samples/test-network/";
+        Path networkConfigPath = Paths.get(
+                basePath + "organizations/peerOrganizations/org1.example.com/connection-org1.yaml");
+
         Path cryptoPath = Paths.get(basePath + "organizations/peerOrganizations/org1.example.com");
         Path certPath = cryptoPath.resolve(basePath
                 + "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem");
@@ -57,15 +58,6 @@ public class App {
                 Path keyPath = Files.list(keyDir).findFirst().get();
                 System.out.println("Key file path: " + keyPath);
 
-                // Load identity.
-                // Identity identity = new X509Identity("Org1MSP",
-                // Identities.readX509Certificate(Files.newBufferedReader(certPath)));
-
-                // Identity identity = Identities.newX509Identity(
-                // "Org1MSP",
-                // Identities.readX509Certificate(Files.newBufferedReader(certPath))
-                // );
-
                 System.out.println("\nReading certificate...");
                 // Read cert
                 X509Certificate certificate = Identities.readX509Certificate(
@@ -77,7 +69,8 @@ public class App {
                     System.out.println("Key file path: " + keyFilePath);
                 });
 
-                // Get the actual name of the file in the keystore directory (there should be only one file).
+                // Get the actual name of the file in the keystore directory (there should be
+                // only one file).
                 Path keyFilePath = Files.list(keyDir).findFirst().get();
 
                 PrivateKey privateKey = Identities.readPrivateKey(
@@ -104,11 +97,66 @@ public class App {
                 System.out.println("\nCreating identity...");
                 Identity identity = Identities.newX509Identity("Org1MSP", enrollment);
 
+                Gateway.Builder builder = Gateway.createBuilder()
+                        .identity(identity)
+                        .networkConfig(networkConfigPath);
+
+                try (Gateway gateway = builder.connect()) {
+                    System.out.println("\nSuccessfully connected to the gateway.");
+
+                    Network network = gateway.getNetwork("mychannel");
+
+                    Contract contract = network.getContract("basic");
+
+                    System.out.println("\nSubscribing to block events...");
+
+                    // Block listener.
+                    network.addBlockListener(blockEvent -> {
+
+                        System.out.println("\n📦 BLOCK COMMITTED");
+                        System.out.println("Block Number: " +
+                                blockEvent.getBlockNumber());
+
+                        for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
+
+                            System.out.println("TxID: " +
+                                    txEvent.getTransactionID());
+
+                            System.out.println("Valid: " +
+                                    txEvent.isValid());
+                        }
+                    });
+
+                    // Perform a ledger query.
+
+                    byte[] queryResult = contract.evaluateTransaction(
+                            "ReadAsset",
+                            "asset6");
+
+                    System.out.println("\nUpdated Asset:");
+                    String queryResultStr = new String(queryResult);
+                    System.out.println(queryResultStr);
+
+                    System.out.println("\nSubmitting transaction...");
+
+                    byte[] result = contract.submitTransaction(
+                            "TransferAsset",
+                            "asset6",
+                            "Rufino Blanco");
+
+                    System.out.println("\nTransaction has been submitted, result: " +
+                            new String(result));
+
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (CertificateException e) {
                 e.printStackTrace();
             } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("General error: " + e.getMessage());
                 e.printStackTrace();
             }
 
