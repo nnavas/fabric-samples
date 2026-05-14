@@ -156,7 +156,7 @@ public class App {
             } catch (InvalidKeyException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                System.out.println("General error: " + e.getMessage());
+                System.out.println("NN ===> General error: " + e.getMessage());
                 e.printStackTrace();
             }
 
