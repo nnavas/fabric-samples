@@ -12,26 +12,70 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.security.*;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+//import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
 /**
- * Hello world!
+ * App to listen to block commit events for peers.
  *
  */
 public class App {
-    public static void main(String[] args) {
+
+    // Map to store gateway instances for different organizations (and soon peers).
+    public static HashMap<String, Gateway> gatewayMap = new HashMap<String, Gateway>();
+
+    private static void setupBlockLister(int orgNumber) {
 
         String basePath = "/home/nono/HLF/fabric-samples/test-network/";
-        Path networkConfigPath = Paths.get(
-                basePath + "organizations/peerOrganizations/org1.example.com/connection-org1.yaml");
 
-        Path cryptoPath = Paths.get(basePath + "organizations/peerOrganizations/org1.example.com");
+        String mspId = "Org" + orgNumber + "MSP";
+        String organizationPathString;
+        switch (orgNumber) {
+            case 1:
+                organizationPathString = "org1";
+                break;
+            case 2:
+                organizationPathString = "org2";
+                break;
+            default:
+                System.out.println("Invalid organization number. Please provide 1 or 2.");
+                return;
+        }
+
+        // Set path to the network configuration file,
+        // E.g. basePath +
+        // "organizations/peerOrganizations/org1.example.com/connection-org1.yaml"
+        Path networkConfigPath = Paths.get(
+                basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com/connection-"
+                        + organizationPathString + ".yaml");
+
+        // Set paths to the crypto materials (certificate, private key, TLS
+        // certificate).
+        // E.g. basePath + "organizations/peerOrganizations/org1.example.com"
+        Path cryptoPath = Paths
+                .get(basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com");
+
+        // Set paths to the certificate.
+        // E.g. basePath +
+        // "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem"
         Path certPath = cryptoPath.resolve(basePath
-                + "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem");
+                + "organizations/peerOrganizations/" + organizationPathString + ".example.com/users/User1@"
+                + organizationPathString + ".example.com/msp/signcerts/cert.pem");
+
+        // Set path to the private key directory (the directory should contain only one
+        // file).
+        // E.g. basePath +
+        // "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore"
         Path keyDir = cryptoPath.resolve(basePath
-                + "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore");
+                + "organizations/peerOrganizations/" + organizationPathString + ".example.com/users/User1@"
+                + organizationPathString + ".example.com/msp/keystore");
+
+        // Set path to the TLS certificate.
+        // E.g. basePath +
+        // "organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
         Path tlsCertPath = cryptoPath
-                .resolve(basePath + "organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem");
+                .resolve(basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com/ca/ca."
+                        + organizationPathString + ".example.com-cert.pem");
 
         // Check if the certificate, key directory, and TLS certificate exist.
         boolean filesPresent = false;
@@ -51,17 +95,17 @@ public class App {
             }
         }
         if (filesPresent) {
-            System.out.println("Certificate path: " + certPath);
-            System.out.println("Key directory path: " + keyDir);
-            System.out.println("TLS certificate path: " + tlsCertPath);
+            // System.out.println("Certificate path: " + certPath);
+            // System.out.println("Key directory path: " + keyDir);
+            // System.out.println("TLS certificate path: " + tlsCertPath);
             try {
                 Path keyPath = Files.list(keyDir).findFirst().get();
                 System.out.println("Key file path: " + keyPath);
 
-                System.out.println("\nReading certificate...");
+                // System.out.println("\nReading certificate...");
                 // Read cert
-                X509Certificate certificate = Identities.readX509Certificate(
-                        Files.newBufferedReader(certPath));
+                // X509Certificate certificate = Identities.readX509Certificate(
+                // Files.newBufferedReader(certPath));
 
                 System.out.println("\nReading private key...");
                 // Read private key
@@ -95,7 +139,7 @@ public class App {
                 };
 
                 System.out.println("\nCreating identity...");
-                Identity identity = Identities.newX509Identity("Org1MSP", enrollment);
+                Identity identity = Identities.newX509Identity(mspId, enrollment);
 
                 Gateway.Builder builder = Gateway.createBuilder()
                         .identity(identity)
@@ -106,7 +150,7 @@ public class App {
 
                     Network network = gateway.getNetwork("mychannel");
 
-                    Contract contract = network.getContract("basic");
+                    // Contract contract = network.getContract("basic");
 
                     System.out.println("\nSubscribing to block events...");
 
@@ -127,25 +171,27 @@ public class App {
                         }
                     });
 
-                    // Perform a ledger query.
+                    gatewayMap.put(mspId, gateway);
 
-                    byte[] queryResult = contract.evaluateTransaction(
-                            "ReadAsset",
-                            "asset6");
+                    // // Perform a ledger query.
 
-                    System.out.println("\nUpdated Asset:");
-                    String queryResultStr = new String(queryResult);
-                    System.out.println(queryResultStr);
+                    // byte[] queryResult = contract.evaluateTransaction(
+                    //         "ReadAsset",
+                    //         "asset6");
 
-                    System.out.println("\nSubmitting transaction...");
+                    // System.out.println("\nUpdated Asset:");
+                    // String queryResultStr = new String(queryResult);
+                    // System.out.println(queryResultStr);
 
-                    byte[] result = contract.submitTransaction(
-                            "TransferAsset",
-                            "asset6",
-                            "Rufino Blanco");
+                    // System.out.println("\nSubmitting transaction...");
 
-                    System.out.println("\nTransaction has been submitted, result: " +
-                            new String(result));
+                    // byte[] result = contract.submitTransaction(
+                    //         "TransferAsset",
+                    //         "asset6",
+                    //         "Rufino Blanco Sabueso");
+
+                    // System.out.println("\nTransaction has been submitted, result: " +
+                    //         new String(result));
 
                 }
 
@@ -161,5 +207,44 @@ public class App {
             }
 
         }
+
+    }
+
+    public static void main(String[] args) {
+
+        setupBlockLister(1);
+
+        // Get a gateway to submit transactions.
+
+        Gateway gateway = gatewayMap.get("Org1MSP");
+        Network network = gateway.getNetwork("mychannel");
+        Contract contract = network.getContract("basic");
+        try {
+
+            // Perform a ledger query.
+
+            byte[] queryResult = contract.evaluateTransaction(
+                    "ReadAsset",
+                    "asset6");
+
+            System.out.println("\nUpdated Asset:");
+            String queryResultStr = new String(queryResult);
+            System.out.println(queryResultStr);
+
+            byte[] result = contract.submitTransaction(
+                    "TransferAsset",
+                    "asset6",
+                    "Rufino Blanco Sabueso");
+
+            System.out.println("\nTransaction has been submitted, result: " +
+                    new String(result));
+
+            Thread.sleep(30000); // Sleep for a while to allow block event to be processed before the program exits.
+
+        } catch (Exception e) {
+            System.out.println("NN ===> Error submitting transaction: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }
