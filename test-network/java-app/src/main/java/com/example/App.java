@@ -8,11 +8,8 @@ import org.hyperledger.fabric.gateway.Identities;
 import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Enrollment;
 
-import java.io.IOException;
 import java.nio.file.*;
 import java.security.*;
-import java.security.cert.CertificateException;
-//import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
 /**
@@ -24,7 +21,9 @@ public class App {
     // Map to store gateway instances for different organizations (and soon peers).
     public static HashMap<String, Gateway> gatewayMap = new HashMap<String, Gateway>();
 
-    private static void setupBlockLister(int orgNumber) {
+    private static Gateway setupBlockLister(int orgNumber) {
+
+        Gateway gateway = null;
 
         String basePath = "/home/nono/HLF/fabric-samples/test-network/";
 
@@ -39,7 +38,7 @@ public class App {
                 break;
             default:
                 System.out.println("Invalid organization number. Please provide 1 or 2.");
-                return;
+                return null;
         }
 
         // Set path to the network configuration file,
@@ -102,11 +101,6 @@ public class App {
                 Path keyPath = Files.list(keyDir).findFirst().get();
                 System.out.println("Key file path: " + keyPath);
 
-                // System.out.println("\nReading certificate...");
-                // Read cert
-                // X509Certificate certificate = Identities.readX509Certificate(
-                // Files.newBufferedReader(certPath));
-
                 System.out.println("\nReading private key...");
                 // Read private key
                 Files.list(keyDir).findFirst().ifPresent(keyFilePath -> {
@@ -145,78 +139,56 @@ public class App {
                         .identity(identity)
                         .networkConfig(networkConfigPath);
 
-                try (Gateway gateway = builder.connect()) {
-                    System.out.println("\nSuccessfully connected to the gateway.");
+                gateway = builder.connect();
+                System.out.println("\nSuccessfully connected to the gateway.");
 
-                    Network network = gateway.getNetwork("mychannel");
+                Network network = gateway.getNetwork("mychannel");
 
-                    // Contract contract = network.getContract("basic");
+                System.out.println("\nSubscribing to block events...");
 
-                    System.out.println("\nSubscribing to block events...");
+                // Create a final variable to hold the organization name for use in the block listener lambda.
+                final String listenerOrg = organizationPathString;
 
-                    // Block listener.
-                    network.addBlockListener(blockEvent -> {
+                // Block listener.
+                network.addBlockListener(blockEvent -> {
 
-                        System.out.println("\n📦 BLOCK COMMITTED");
-                        System.out.println("Block Number: " +
-                                blockEvent.getBlockNumber());
+                    System.out.println("\n📦 BLOCK COMMITTED");
+                    // This is not reliable. The final variable works best.
+                    // System.out.println("Peer Id: " +
+                    //         blockEvent.getPeer().getName());
+                    System.out.println("Block Number: " +
+                            blockEvent.getBlockNumber());
+                    System.out.println("org: " +
+                            listenerOrg);
 
-                        for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
+                    for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
 
-                            System.out.println("TxID: " +
-                                    txEvent.getTransactionID());
+                        System.out.println("TxID: " +
+                                txEvent.getTransactionID());
 
-                            System.out.println("Valid: " +
-                                    txEvent.isValid());
-                        }
-                    });
+                        System.out.println("Valid: " +
+                                txEvent.isValid());
+                    }
+                });
 
-                    gatewayMap.put(mspId, gateway);
-
-                    // // Perform a ledger query.
-
-                    // byte[] queryResult = contract.evaluateTransaction(
-                    //         "ReadAsset",
-                    //         "asset6");
-
-                    // System.out.println("\nUpdated Asset:");
-                    // String queryResultStr = new String(queryResult);
-                    // System.out.println(queryResultStr);
-
-                    // System.out.println("\nSubmitting transaction...");
-
-                    // byte[] result = contract.submitTransaction(
-                    //         "TransferAsset",
-                    //         "asset6",
-                    //         "Rufino Blanco Sabueso");
-
-                    // System.out.println("\nTransaction has been submitted, result: " +
-                    //         new String(result));
-
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (CertificateException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println("NN ===> General error: " + e.getMessage());
                 e.printStackTrace();
             }
 
         }
-
+        return gateway;
     }
+
 
     public static void main(String[] args) {
 
-        setupBlockLister(1);
+        Gateway gateway = setupBlockLister(1);
+        setupBlockLister(2);
 
         // Get a gateway to submit transactions.
 
-        Gateway gateway = gatewayMap.get("Org1MSP");
+        // Gateway gateway = gatewayMap.get("Org1MSP");
         Network network = gateway.getNetwork("mychannel");
         Contract contract = network.getContract("basic");
         try {
@@ -234,12 +206,13 @@ public class App {
             byte[] result = contract.submitTransaction(
                     "TransferAsset",
                     "asset6",
-                    "Rufino Blanco Sabueso");
+                    "Rufino Blanco");
 
             System.out.println("\nTransaction has been submitted, result: " +
                     new String(result));
 
-            Thread.sleep(30000); // Sleep for a while to allow block event to be processed before the program exits.
+            Thread.sleep(600000); // Sleep for a while to allow block event to be processed before the program
+                                 // exits.
 
         } catch (Exception e) {
             System.out.println("NN ===> Error submitting transaction: " + e.getMessage());
