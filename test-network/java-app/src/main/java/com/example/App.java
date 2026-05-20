@@ -8,8 +8,10 @@ import org.hyperledger.fabric.gateway.Identities;
 import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Enrollment;
 
+import java.io.IOException;
 import java.nio.file.*;
 import java.security.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -21,13 +23,36 @@ public class App {
     // Map to store gateway instances for different organizations (and soon peers).
     public static HashMap<String, Gateway> gatewayMap = new HashMap<String, Gateway>();
 
+    // List to hold log messages that will be written to a file.
+    public static ArrayList<String> logQueue = new ArrayList<String>();
+
+    public static final String LOG_FILE_PATH = "block_events_log.txt";
+
+    private static void log(String message) {
+        long timestampNs = System.nanoTime();
+        logQueue.add(timestampNs + ": " + message);
+    }
+
+    private static void clearLog() {
+        logQueue.clear();
+        try {
+            Files.deleteIfExists(Paths.get(LOG_FILE_PATH));
+        } catch (IOException e) {
+            // Do nothing. The file is not there.
+        }
+    }
+
+    private static String computeOrgId(int orgNumber) {
+        return "Org" + orgNumber + "MSP";
+    }
+
     private static Gateway setupBlockLister(int orgNumber) {
 
         Gateway gateway = null;
 
         String basePath = "/home/nono/HLF/fabric-samples/test-network/";
 
-        String mspId = "Org" + orgNumber + "MSP";
+        String mspId = computeOrgId(orgNumber);
         String organizationPathString;
         switch (orgNumber) {
             case 1:
@@ -146,7 +171,8 @@ public class App {
 
                 System.out.println("\nSubscribing to block events...");
 
-                // Create a final variable to hold the organization name for use in the block listener lambda.
+                // Create a final variable to hold the organization name for use in the block
+                // listener lambda.
                 final String listenerOrg = organizationPathString;
 
                 // Block listener.
@@ -155,7 +181,10 @@ public class App {
                     System.out.println("\n📦 BLOCK COMMITTED");
                     // This is not reliable. The final variable works best.
                     // System.out.println("Peer Id: " +
-                    //         blockEvent.getPeer().getName());
+                    // blockEvent.getPeer().getName());
+
+                    log(mspId + ": " + blockEvent.getBlockNumber());
+
                     System.out.println("Block Number: " +
                             blockEvent.getBlockNumber());
                     System.out.println("org: " +
@@ -180,15 +209,19 @@ public class App {
         return gateway;
     }
 
-
     public static void main(String[] args) {
 
         Gateway gateway = setupBlockLister(1);
-        setupBlockLister(2);
+        String mspId = computeOrgId(1);
+        gatewayMap.put(mspId, gateway);
+
+        gateway = setupBlockLister(2);
+        mspId = computeOrgId(2);
+        gatewayMap.put(mspId, gateway);
 
         // Get a gateway to submit transactions.
 
-        // Gateway gateway = gatewayMap.get("Org1MSP");
+        gateway = gatewayMap.get("Org1MSP");
         Network network = gateway.getNetwork("mychannel");
         Contract contract = network.getContract("basic");
         try {
@@ -203,6 +236,9 @@ public class App {
             String queryResultStr = new String(queryResult);
             System.out.println(queryResultStr);
 
+            clearLog();
+            log("Starting transactions");
+
             byte[] result = contract.submitTransaction(
                     "TransferAsset",
                     "asset6",
@@ -211,8 +247,28 @@ public class App {
             System.out.println("\nTransaction has been submitted, result: " +
                     new String(result));
 
-            Thread.sleep(600000); // Sleep for a while to allow block event to be processed before the program
-                                 // exits.
+            // Write to the log until we have received all expected log entries.
+
+            // Total log entries expected.
+            int expectedLogEntries = 2;
+            // Total log entries received so far.
+            int currentLogEntries = 0;
+            while (true) {
+                if (logQueue.size() > 0) {
+                    System.out.println("\nWriting log to file...");
+                    Path logFilePath = Paths.get(LOG_FILE_PATH);
+                    Files.write(logFilePath, logQueue, StandardOpenOption.CREATE,
+                            StandardOpenOption.APPEND);
+                    currentLogEntries += logQueue.size();
+                    logQueue.clear();
+                    System.out.println("Log written to " + logFilePath.toAbsolutePath());
+                    if (currentLogEntries >= expectedLogEntries) {
+                        System.out.println("\nReceived all expected log entries. Exiting.");
+                        break;
+                    }
+                }
+                Thread.sleep(100); // Sleep for a while to wait for more transactions.
+            }
 
         } catch (Exception e) {
             System.out.println("NN ===> Error submitting transaction: " + e.getMessage());
