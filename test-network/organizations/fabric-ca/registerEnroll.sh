@@ -84,6 +84,10 @@ function createOrg1() {
   { set +x; } 2>/dev/null
 
   cp "${PWD}/organizations/peerOrganizations/org1.example.com/msp/config.yaml" "${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/config.yaml"
+  
+  # NN: Additional peers.  
+  nnAddPeers 1 9
+  
 }
 
 function createOrg2() {
@@ -170,6 +174,51 @@ function createOrg2() {
   { set +x; } 2>/dev/null
 
   cp "${PWD}/organizations/peerOrganizations/org2.example.com/msp/config.yaml" "${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/config.yaml"
+  
+  # NN: Additional peers.  
+  nnAddPeers 2 9
+  
+}
+
+
+# NN: Add additional peers to an organization. 
+# This function takes two parameters: the organization number and the total peers to add.
+# The function assumes that there are docker definitions for the peers being added in 
+# compose/compose-test-net.yaml and compose/docker/docker-compose-test-net.yaml
+function nnAddPeers() {
+  local ORG=$1
+  local TOTAL_PEERS=$2
+  # Set port for org1 by default.
+  local CA_PORT=7054
+  # Set for for org2 if needed.
+  if [ $ORG -eq 2 ]; then
+    CA_PORT=8054
+  fi
+  for (( PEER=1; PEER<=${TOTAL_PEERS}; PEER++ )); do
+    echo "C-style loop: $i"
+	warnln "NN: Registering additional peer for org${ORG}: peer${PEER}"
+    set -x
+    fabric-ca-client register --caname ca-org${ORG} --id.name peer${PEER} --id.secret peer${PEER}pw --id.type peer --tls.certfiles "${PWD}/organizations/fabric-ca/org${ORG}/ca-cert.pem"
+    { set +x; } 2>/dev/null
+  
+    infoln "NN: Generating the peer${PEER} msp"
+    set -x
+    fabric-ca-client enroll -u https://peer${PEER}:peer${PEER}pw@localhost:${CA_PORT} --caname ca-org${ORG} -M "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/org${ORG}/ca-cert.pem"
+    { set +x; } 2>/dev/null
+
+    cp "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/msp/config.yaml" "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/msp/config.yaml"
+
+    infoln "NN: Generating the peer${PEER}-tls certificates, use --csr.hosts to specify Subject Alternative Names"
+    set -x
+    fabric-ca-client enroll -u https://peer${PEER}:peer${PEER}pw@localhost:${CA_PORT} --caname ca-org${ORG} -M "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls" --enrollment.profile tls --csr.hosts peer${PEER}.org${ORG}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/org${ORG}/ca-cert.pem"
+    { set +x; } 2>/dev/null
+  
+    # Copy the tls CA cert, server cert, server keystore to well known file names in the peer's tls directory that are referenced by peer startup config
+    cp "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/tlscacerts/"* "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/ca.crt"
+    cp "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/signcerts/"* "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/server.crt"
+    cp "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/keystore/"* "${PWD}/organizations/peerOrganizations/org${ORG}.example.com/peers/peer${PEER}.org${ORG}.example.com/tls/server.key"
+  done
+
 }
 
 function createOrderer() {

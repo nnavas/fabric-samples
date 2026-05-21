@@ -56,6 +56,83 @@ setGlobals() {
   fi
 }
 
+# NN: setGlobals with additional parameter for peer
+# Set environment variables for the peer org
+setGlobals2() {
+  local USING_ORG=""
+  if [ -z "$OVERRIDE_ORG" ]; then
+    USING_ORG=$1
+  else
+    USING_ORG="${OVERRIDE_ORG}"
+  fi
+  local PEER=$2
+  infoln "Using organization ${USING_ORG}"
+  if [ $USING_ORG -eq 1 ]; then
+    export CORE_PEER_LOCALMSPID=Org1MSP
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
+    export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+	if [ $PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:7051
+	elif [ $PEER -eq 1 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10001
+	elif [ $PEER -eq 2 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10011  
+	elif [ $PEER -eq 3 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10021  
+	elif [ $PEER -eq 4 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10031    
+	elif [ $PEER -eq 5 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10041  
+	elif [ $PEER -eq 6 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10051  
+	elif [ $PEER -eq 7 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10061  
+	elif [ $PEER -eq 8 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10071  
+	elif [ $PEER -eq 9 ]; then
+	  export CORE_PEER_ADDRESS=localhost:10081  
+	fi
+  elif [ $USING_ORG -eq 2 ]; then
+    export CORE_PEER_LOCALMSPID=Org2MSP
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
+    export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+	if [ $PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:9051
+	elif [ $PEER -eq 1 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20001
+	elif [ $PEER -eq 2 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20011  
+	elif [ $PEER -eq 3 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20021  
+	elif [ $PEER -eq 4 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20031    
+	elif [ $PEER -eq 5 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20041  
+	elif [ $PEER -eq 6 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20051  
+	elif [ $PEER -eq 7 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20061  
+	elif [ $PEER -eq 8 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20071  
+	elif [ $PEER -eq 9 ]; then
+	  export CORE_PEER_ADDRESS=localhost:20081
+	fi
+  elif [ $USING_ORG -eq 3 ]; then
+    export CORE_PEER_LOCALMSPID=Org3MSP
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
+    export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+	if [ $PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:11051
+	fi
+  else
+    errorln "ORG Unknown"
+  fi
+
+  if [ "$VERBOSE" = "true" ]; then
+    env | grep CORE
+  fi
+}
+
 # parsePeerConnectionParameters $@
 # Helper function that sets the peer connection parameters for a chaincode
 # operation
