@@ -46,7 +46,7 @@ setGlobals() {
     export CORE_PEER_LOCALMSPID=Org3MSP
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
     export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-    export CORE_PEER_ADDRESS=localhost:11051
+    export CORE_PEER_ADDRESS=localhost:30001
   else
     errorln "ORG Unknown"
   fi
@@ -122,7 +122,25 @@ setGlobals2() {
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
     export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
 	if [ $PEER -eq 0 ]; then
-      export CORE_PEER_ADDRESS=localhost:11051
+      export CORE_PEER_ADDRESS=localhost:30001
+  elif [ $PEER -eq 1 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30011
+	elif [ $PEER -eq 2 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30021  
+	elif [ $PEER -eq 3 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30031  
+	elif [ $PEER -eq 4 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30041    
+	elif [ $PEER -eq 5 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30051  
+	elif [ $PEER -eq 6 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30061  
+	elif [ $PEER -eq 7 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30071  
+	elif [ $PEER -eq 8 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30081  
+	elif [ $PEER -eq 9 ]; then
+	  export CORE_PEER_ADDRESS=localhost:30091
 	fi
   else
     errorln "ORG Unknown"

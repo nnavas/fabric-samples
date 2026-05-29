@@ -154,10 +154,18 @@ for (( PEER=0; PEER<=9; PEER++ )); do
   joinChannel2 2 ${PEER}
 done
 
+# NN: Joining additional peers to org3.
+for (( PEER=0; PEER<=9; PEER++ )); do
+  warnln "NN: Joining org3 peer${PEER} to the channel..."
+  joinChannel2 3 ${PEER}
+done
+
 ## Set the anchor peers for each org in the channel
 infoln "Setting anchor peer for org1..."
 setAnchorPeer 1
 infoln "Setting anchor peer for org2..."
 setAnchorPeer 2
+infoln "Setting anchor peer for org3..."
+setAnchorPeer 3
 
 successln "Channel '$CHANNEL_NAME' joined"
