@@ -84,17 +84,14 @@ for (( PEER=0; PEER<=9; PEER++ )); do
   installChaincode2 1 ${PEER}
 done
 
-#infoln "Installing chaincode on peer0.org1..."
-#installChaincode2 1 0
-#infoln "Installing chaincode on peer1.org1..."
-#installChaincode2 1 1
-
-#infoln "Install chaincode on peer0.org2..."
-#installChaincode2 2 0
-
 for (( PEER=0; PEER<=9; PEER++ )); do
   warnln "NN: Installing chaincode on peer${PEER}.org2..."
   installChaincode2 2 ${PEER}
+done
+
+for (( PEER=0; PEER<=9; PEER++ )); do
+  warnln "NN: Installing chaincode on peer${PEER}.org3..."
+  installChaincode2 3 ${PEER}
 done
 
 resolveSequence
@@ -107,30 +104,39 @@ approveForMyOrg 1
 
 ## check whether the chaincode definition is ready to be committed
 ## expect org1 to have approved and org2 not to
-checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": false"
-checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": false"
+checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": false" "\"Org3MSP\": false"
+checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": false" "\"Org3MSP\": false"
 
 ## now approve also for org2
 approveForMyOrg 2
 
 ## check whether the chaincode definition is ready to be committed
 ## expect them both to have approved
-checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": true"
-checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true"
+checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": true" "\"Org3MSP\": false"
+checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true" "\"Org3MSP\": false"
 
-## now that we know for sure both orgs have approved, commit the definition
-commitChaincodeDefinition 1 2
+## now approve also for org3
+approveForMyOrg 3
+
+## check whether the chaincode definition is ready to be committed
+## expect them both to have approved
+checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": true" "\"Org3MSP\": true"
+checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true" "\"Org3MSP\": true"
+
+## now that we know for sure all orgs have approved, commit the definition
+commitChaincodeDefinition 1 2 3
 
 ## query on both orgs to see that the definition committed successfully
 queryCommitted 1
 queryCommitted 2
+queryCommitted 3
 
 ## Invoke the chaincode - this does require that the chaincode have the 'initLedger'
 ## method defined
 if [ "$CC_INIT_FCN" = "NA" ]; then
   infoln "Chaincode initialization is not required"
 else
-  chaincodeInvokeInit 1 2
+  chaincodeInvokeInit 1 2 3
 fi
 
 exit 0
