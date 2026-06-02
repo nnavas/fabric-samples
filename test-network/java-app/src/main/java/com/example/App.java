@@ -61,8 +61,11 @@ public class App {
             case 2:
                 organizationPathString = "org2";
                 break;
+            case 3:
+                organizationPathString = "org3";
+                break;
             default:
-                System.out.println("Invalid organization number. Please provide 1 or 2.");
+                System.out.println("Invalid organization number. Please provide 1, 2 or 3.");
                 return null;
         }
 
