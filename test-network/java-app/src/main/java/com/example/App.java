@@ -46,63 +46,69 @@ public class App {
         return "Org" + orgNumber + "MSP";
     }
 
-    private static Gateway setupBlockLister(int orgNumber) {
+    private static String computePeerName(int orgNumber, int peerNumber) {
+        return "org" + orgNumber + "-peer" + peerNumber;
+    }
+
+    private static Gateway setupBlockLister(int orgNumber, int peerNumber) {
 
         Gateway gateway = null;
 
         String basePath = "/home/nono/HLF/fabric-samples/test-network/";
 
         String mspId = computeOrgId(orgNumber);
-        String organizationPathString;
+        String organizationName = "";
         switch (orgNumber) {
             case 1:
-                organizationPathString = "org1";
+                organizationName = "org1";
                 break;
             case 2:
-                organizationPathString = "org2";
+                organizationName = "org2";
                 break;
             case 3:
-                organizationPathString = "org3";
+                organizationName = "org3";
                 break;
             default:
                 System.out.println("Invalid organization number. Please provide 1, 2 or 3.");
                 return null;
         }
 
+        String organizationPeerName = computePeerName(orgNumber, peerNumber);
+
         // Set path to the network configuration file,
         // E.g. basePath +
-        // "organizations/peerOrganizations/org1.example.com/connection-org1.yaml"
+        // "organizations/peerOrganizations/org1.example.com/connection-org1-peer1.yaml"
         Path networkConfigPath = Paths.get(
-                basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com/connection-"
-                        + organizationPathString + ".yaml");
+                basePath + "organizations/peerOrganizations/" + organizationName + ".example.com/connection-"
+                        + organizationPeerName + ".yaml");
 
         // Set paths to the crypto materials (certificate, private key, TLS
         // certificate).
         // E.g. basePath + "organizations/peerOrganizations/org1.example.com"
         Path cryptoPath = Paths
-                .get(basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com");
+                .get(basePath + "organizations/peerOrganizations/" + organizationName + ".example.com");
 
         // Set paths to the certificate.
         // E.g. basePath +
         // "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem"
         Path certPath = cryptoPath.resolve(basePath
-                + "organizations/peerOrganizations/" + organizationPathString + ".example.com/users/User1@"
-                + organizationPathString + ".example.com/msp/signcerts/cert.pem");
+                + "organizations/peerOrganizations/" + organizationName + ".example.com/users/User1@"
+                + organizationName + ".example.com/msp/signcerts/cert.pem");
 
         // Set path to the private key directory (the directory should contain only one
         // file).
         // E.g. basePath +
         // "organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore"
         Path keyDir = cryptoPath.resolve(basePath
-                + "organizations/peerOrganizations/" + organizationPathString + ".example.com/users/User1@"
-                + organizationPathString + ".example.com/msp/keystore");
+                + "organizations/peerOrganizations/" + organizationName + ".example.com/users/User1@"
+                + organizationName + ".example.com/msp/keystore");
 
         // Set path to the TLS certificate.
         // E.g. basePath +
         // "organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
         Path tlsCertPath = cryptoPath
-                .resolve(basePath + "organizations/peerOrganizations/" + organizationPathString + ".example.com/ca/ca."
-                        + organizationPathString + ".example.com-cert.pem");
+                .resolve(basePath + "organizations/peerOrganizations/" + organizationName + ".example.com/ca/ca."
+                        + organizationName + ".example.com-cert.pem");
 
         // Check if the certificate, key directory, and TLS certificate exist.
         boolean filesPresent = false;
@@ -174,9 +180,9 @@ public class App {
 
                 System.out.println("\nSubscribing to block events...");
 
-                // Create a final variable to hold the organization name for use in the block
+                // Create a final variable to hold the organization and peer name for use in the block
                 // listener lambda.
-                final String listenerOrg = organizationPathString;
+                final String listenerId = organizationPeerName;
 
                 // Block listener.
                 network.addBlockListener(blockEvent -> {
@@ -186,12 +192,12 @@ public class App {
                     // System.out.println("Peer Id: " +
                     // blockEvent.getPeer().getName());
 
-                    log(mspId + ": " + blockEvent.getBlockNumber());
+                    log(listenerId + ": " + blockEvent.getBlockNumber());
 
                     System.out.println("Block Number: " +
                             blockEvent.getBlockNumber());
                     System.out.println("org: " +
-                            listenerOrg);
+                            listenerId);
 
                     for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
 
@@ -214,17 +220,29 @@ public class App {
 
     public static void main(String[] args) {
 
-        Gateway gateway = setupBlockLister(1);
-        String mspId = computeOrgId(1);
-        gatewayMap.put(mspId, gateway);
+        // Gateway gateway = setupBlockLister(1,0);
+        // String peerName = computePeerName(1, 0);
+        // gatewayMap.put(peerName, gateway);
 
-        gateway = setupBlockLister(2);
-        mspId = computeOrgId(2);
-        gatewayMap.put(mspId, gateway);
+        // gateway = setupBlockLister(2, 5);
+        // peerName = computePeerName(2, 5);
+        // gatewayMap.put(peerName, gateway);
+
+        Gateway gateway = null;
+        String peerName = "";
+        for (int org = 1; org <= 3; org++) {
+            for (int peer = 0; peer <= 9; peer++) {
+                gateway = setupBlockLister(org, peer);
+                if (gateway != null) {
+                    peerName = computePeerName(org, peer);
+                    gatewayMap.put(peerName, gateway);
+                }
+            }
+        }
 
         // Get a gateway to submit transactions.
 
-        gateway = gatewayMap.get("Org1MSP");
+        gateway = gatewayMap.get("org1-peer0");
         Network network = gateway.getNetwork("mychannel");
         Contract contract = network.getContract("basic");
         try {
@@ -265,10 +283,10 @@ public class App {
                     currentLogEntries += logQueue.size();
                     logQueue.clear();
                     System.out.println("Log written to " + logFilePath.toAbsolutePath());
-                    if (currentLogEntries >= expectedLogEntries) {
-                        System.out.println("\nReceived all expected log entries. Exiting.");
-                        break;
-                    }
+                    // if (currentLogEntries >= expectedLogEntries) {
+                    //     System.out.println("\nReceived all expected log entries. Exiting.");
+                    //     break;
+                    // }
                 }
                 Thread.sleep(100); // Sleep for a while to wait for more transactions.
             }
