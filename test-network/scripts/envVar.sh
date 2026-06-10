@@ -142,6 +142,31 @@ setGlobals2() {
 	elif [ $PEER -eq 9 ]; then
 	  export CORE_PEER_ADDRESS=localhost:30091
 	fi
+  elif [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_LOCALMSPID=Org4MSP
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG4_CA
+    export CORE_PEER_MSPCONFIGPATH=${TEST_NETWORK_HOME}/organizations/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
+	if [ $PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:40001
+  elif [ $PEER -eq 1 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40011
+	elif [ $PEER -eq 2 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40021  
+	elif [ $PEER -eq 3 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40031  
+	elif [ $PEER -eq 4 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40041    
+	elif [ $PEER -eq 5 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40051  
+	elif [ $PEER -eq 6 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40061  
+	elif [ $PEER -eq 7 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40071  
+	elif [ $PEER -eq 8 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40081  
+	elif [ $PEER -eq 9 ]; then
+	  export CORE_PEER_ADDRESS=localhost:40091
+	fi
   else
     errorln "ORG Unknown"
   fi
