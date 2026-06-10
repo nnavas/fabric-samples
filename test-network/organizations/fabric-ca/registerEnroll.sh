@@ -350,7 +350,7 @@ function createOrg4() {
 
   infoln "Generating the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://org4admin:org3adminpw@localhost:4054 --caname ca-org4 -M "${PWD}/organizations/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/org4/ca-cert.pem"
+  fabric-ca-client enroll -u https://org4admin:org4adminpw@localhost:4054 --caname ca-org4 -M "${PWD}/organizations/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/org4/ca-cert.pem"
   { set +x; } 2>/dev/null
 
   cp "${PWD}/organizations/peerOrganizations/org4.example.com/msp/config.yaml" "${PWD}/organizations/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp/config.yaml"
