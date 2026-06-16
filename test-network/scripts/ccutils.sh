@@ -22,10 +22,6 @@ function installChaincode2() {
   ORG=$1
   PEER=$2
   setGlobals2 $ORG $PEER
-  warnln "NN: CORE_PEER_LOCALMSPID = ${CORE_PEER_LOCALMSPID}"
-  warnln "NN: CORE_PEER_TLS_ROOTCERT_FILE = ${CORE_PEER_TLS_ROOTCERT_FILE}"
-  warnln "NN: CORE_PEER_MSPCONFIGPATH = ${CORE_PEER_MSPCONFIGPATH}"
-  warnln "NN: CORE_PEER_ADDRESS = ${CORE_PEER_ADDRESS}"
   set -x
   peer lifecycle chaincode queryinstalled --output json | jq -r 'try (.installed_chaincodes[].package_id)' | grep ^${PACKAGE_ID}$ >&log.txt
   if test $? -ne 0; then
