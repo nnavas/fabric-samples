@@ -120,6 +120,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com:/etc/hyperledger/fabric
       - peer0.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -159,6 +161,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com:/etc/hyperledger/fabric
       - peer0.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -202,6 +206,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com:/etc/hyperledger/fabric
       - peer1.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -241,6 +247,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer2.org1.example.com:/etc/hyperledger/fabric
       - peer2.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -280,6 +288,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer3.org1.example.com:/etc/hyperledger/fabric
       - peer3.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -319,6 +329,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer4.org1.example.com:/etc/hyperledger/fabric
       - peer4.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -358,6 +370,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer5.org1.example.com:/etc/hyperledger/fabric
       - peer5.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -397,6 +411,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer6.org1.example.com:/etc/hyperledger/fabric
       - peer6.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -435,7 +451,9 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer7.org1.example.com:/etc/hyperledger/fabric
-      - peer7.org1.example.com:/var/hyperledger/production
+      - peer7.org1.example.com:/var/hyperledger/
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -475,6 +493,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer8.org1.example.com:/etc/hyperledger/fabric
       - peer8.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -514,6 +534,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer9.org1.example.com:/etc/hyperledger/fabric
       - peer9.org1.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -556,6 +578,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com:/etc/hyperledger/fabric
       - peer1.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -595,6 +619,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer2.org2.example.com:/etc/hyperledger/fabric
       - peer2.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -634,6 +660,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer3.org2.example.com:/etc/hyperledger/fabric
       - peer3.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -673,6 +701,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer4.org2.example.com:/etc/hyperledger/fabric
       - peer4.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -712,6 +742,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer5.org2.example.com:/etc/hyperledger/fabric
       - peer5.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -751,6 +783,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer6.org2.example.com:/etc/hyperledger/fabric
       - peer6.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -790,6 +824,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer7.org2.example.com:/etc/hyperledger/fabric
       - peer7.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -829,6 +865,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer8.org2.example.com:/etc/hyperledger/fabric
       - peer8.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -868,6 +906,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer9.org2.example.com:/etc/hyperledger/fabric
       - peer9.org2.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -910,6 +950,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com:/etc/hyperledger/fabric
       - peer0.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -949,6 +991,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer1.org3.example.com:/etc/hyperledger/fabric
       - peer1.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -988,6 +1032,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer2.org3.example.com:/etc/hyperledger/fabric
       - peer2.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1027,6 +1073,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer3.org3.example.com:/etc/hyperledger/fabric
       - peer3.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1066,6 +1114,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer4.org3.example.com:/etc/hyperledger/fabric
       - peer4.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1105,6 +1155,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer5.org3.example.com:/etc/hyperledger/fabric
       - peer5.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1144,6 +1196,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer6.org3.example.com:/etc/hyperledger/fabric
       - peer6.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1183,6 +1237,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer7.org3.example.com:/etc/hyperledger/fabric
       - peer7.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1222,6 +1278,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer8.org3.example.com:/etc/hyperledger/fabric
       - peer8.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1261,6 +1319,8 @@ services:
     volumes:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer9.org3.example.com:/etc/hyperledger/fabric
       - peer9.org3.example.com:/var/hyperledger/production
+      # NN: Replace the peer binary with the one built from source code
+      - ../nn-peer-stp/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
