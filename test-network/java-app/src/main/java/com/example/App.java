@@ -2,6 +2,7 @@ package com.example;
 
 import org.hyperledger.fabric.gateway.Identity;
 import org.hyperledger.fabric.gateway.Network;
+import org.hyperledger.fabric.protos.common.Common.Block;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Identities;
@@ -193,6 +194,12 @@ public class App {
                     // blockEvent.getPeer().getName());
 
                     log(listenerId + ": " + blockEvent.getBlockNumber());
+
+                    Block block = blockEvent.getBlock();
+
+                    int size = block.getSerializedSize();
+                    
+                    System.out.println("Block Size: " + size + " bytes");
 
                     System.out.println("Block Number: " +
                             blockEvent.getBlockNumber());
