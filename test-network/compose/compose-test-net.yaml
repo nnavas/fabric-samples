@@ -272,7 +272,7 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variables
-      - CORE_PEER_ID=peer2.org1.example.com
+      - CORE_PEER_ID=peer3.org1.example.com
       - CORE_PEER_ADDRESS=peer3.org1.example.com:10021
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10021
       - CORE_PEER_CHAINCODEADDRESS=peer3.org1.example.com:10022
@@ -644,7 +644,7 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variables
-      - CORE_PEER_ID=peer2.org2.example.com
+      - CORE_PEER_ID=peer3.org2.example.com
       - CORE_PEER_ADDRESS=peer3.org2.example.com:20021
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20021
       - CORE_PEER_CHAINCODEADDRESS=peer3.org2.example.com:20022
