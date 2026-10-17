@@ -267,13 +267,17 @@ public class App {
             clearLog();
             log("Starting transactions");
 
-            byte[] result = contract.submitTransaction(
-                    "TransferAsset",
-                    "asset6",
-                    "Rufino Blanco");
-
-            System.out.println("\nTransaction has been submitted, result: " +
-                    new String(result));
+            // NN: Set the total number of transactions to submit.
+            int totalTransactions = 10;
+            for (int i = 0; i < totalTransactions; i++) {
+                System.out.println("Submitting transaction " + (i + 1) + " of " + totalTransactions);
+                String newOwner = "Rufino Blanco " + i;
+                byte[] result = contract.submitTransaction(
+                            "TransferAsset",
+                            "asset6",
+                            newOwner);
+                System.out.println("Transaction " + (i + 1) + " result: " + new String(result));
+            }
 
             // Write to the log until we have received all expected log entries.
 
