@@ -24,8 +24,8 @@ ORG2_CA="${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org
 # Invoke chaincode repeatedly
 for ((i=0; i<ITERATIONS; i++)); do
 
-    # Cycle through asset1 to asset6
-    ASSET_ID="nuevoDos${i}"
+    # Set unique asset ID
+    ASSET_ID="nuevoF${i}"
 
     # Generate new owner
     OWNER="Rufy${i}"

@@ -2,18 +2,17 @@ package com.example;
 
 import org.hyperledger.fabric.gateway.Identity;
 import org.hyperledger.fabric.gateway.Network;
-import org.hyperledger.fabric.protos.common.Common.Block;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Identities;
-import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Enrollment;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.security.*;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * App to listen to block commit events for peers.
@@ -25,7 +24,9 @@ public class App {
     public static HashMap<String, Gateway> gatewayMap = new HashMap<String, Gateway>();
 
     // List to hold log messages that will be written to a file.
-    public static ArrayList<String> logQueue = new ArrayList<String>();
+    // public static ArrayList<String> logQueue = new ArrayList<String>();
+
+    private static final BlockingQueue<String> logQueue = new LinkedBlockingQueue<>();
 
     public static final String LOG_FILE_PATH = "block_events_log.txt";
 
@@ -188,32 +189,40 @@ public class App {
                 // Block listener.
                 network.addBlockListener(blockEvent -> {
 
-                    System.out.println("\n📦 BLOCK COMMITTED");
-                    // This is not reliable. The final variable works best.
-                    // System.out.println("Peer Id: " +
-                    // blockEvent.getPeer().getName());
+                    long timestamp = System.nanoTime();
 
-                    log(listenerId + ": " + blockEvent.getBlockNumber());
+                    logQueue.add(
+                        timestamp + ": " +
+                        listenerId + ": " +
+                        blockEvent.getBlockNumber()
+                    );
 
-                    Block block = blockEvent.getBlock();
+                    // System.out.println("\n📦 BLOCK COMMITTED");
+                    // // This is not reliable. The final variable works best.
+                    // // System.out.println("Peer Id: " +
+                    // // blockEvent.getPeer().getName());
 
-                    int size = block.getSerializedSize();
+                    // log(listenerId + ": " + blockEvent.getBlockNumber());
+
+                    // Block block = blockEvent.getBlock();
+
+                    // int size = block.getSerializedSize();
                     
-                    System.out.println("Block Size: " + size + " bytes");
+                    // System.out.println("Block Size: " + size + " bytes");
 
-                    System.out.println("Block Number: " +
-                            blockEvent.getBlockNumber());
-                    System.out.println("org: " +
-                            listenerId);
+                    // System.out.println("Block Number: " +
+                    //         blockEvent.getBlockNumber());
+                    // System.out.println("org: " +
+                    //         listenerId);
 
-                    for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
+                    // for (BlockEvent.TransactionEvent txEvent : blockEvent.getTransactionEvents()) {
 
-                        System.out.println("TxID: " +
-                                txEvent.getTransactionID());
+                    //     System.out.println("TxID: " +
+                    //             txEvent.getTransactionID());
 
-                        System.out.println("Valid: " +
-                                txEvent.isValid());
-                    }
+                    //     System.out.println("Valid: " +
+                    //             txEvent.isValid());
+                    // }
                 });
 
             } catch (Exception e) {
@@ -227,13 +236,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        // Gateway gateway = setupBlockLister(1,0);
-        // String peerName = computePeerName(1, 0);
-        // gatewayMap.put(peerName, gateway);
-
-        // gateway = setupBlockLister(2, 5);
-        // peerName = computePeerName(2, 5);
-        // gatewayMap.put(peerName, gateway);
+        clearLog();
 
         Gateway gateway = null;
         String peerName = "";
@@ -264,42 +267,44 @@ public class App {
             String queryResultStr = new String(queryResult);
             System.out.println(queryResultStr);
 
-            clearLog();
+            
             log("Starting transactions");
 
             // NN: Set the total number of transactions to submit.
-            int totalTransactions = 10;
-            for (int i = 0; i < totalTransactions; i++) {
-                System.out.println("Submitting transaction " + (i + 1) + " of " + totalTransactions);
-                String newOwner = "Rufino Blanco " + i;
-                byte[] result = contract.submitTransaction(
-                            "TransferAsset",
-                            "asset6",
-                            newOwner);
-                System.out.println("Transaction " + (i + 1) + " result: " + new String(result));
-            }
+            // int totalTransactions = 100;
+            // int assetId = 1;
+            // for (int i = 0; i < totalTransactions; i++) {
+            //     System.out.println("Submitting transaction " + (i + 1) + " of " + totalTransactions);
+            //     String newOwner = "Rufino Blanco " + i;
+            //     String newAssetId = "asset" + assetId;
+            //     byte[] result = contract.submitTransaction(
+            //                 "TransferAsset",
+            //                 newAssetId,
+            //                 newOwner);
+            //     System.out.println("Transaction " + (i + 1) + " result: " + new String(result));
+            //     assetId++;
+            //     if (assetId > 6) {
+            //         assetId = 1;
+            //     }
+            // }
 
             // Write to the log until we have received all expected log entries.
 
-            // Total log entries expected.
-            int expectedLogEntries = 2;
-            // Total log entries received so far.
-            int currentLogEntries = 0;
+            // // Total log entries expected.
+            // int expectedLogEntries = 2;
+            // // Total log entries received so far.
+            // int currentLogEntries = 0;
+            System.out.println("\nWriting log to file...");
             while (true) {
-                if (logQueue.size() > 0) {
-                    System.out.println("\nWriting log to file...");
+                    String entry = logQueue.take();
+
                     Path logFilePath = Paths.get(LOG_FILE_PATH);
-                    Files.write(logFilePath, logQueue, StandardOpenOption.CREATE,
-                            StandardOpenOption.APPEND);
-                    currentLogEntries += logQueue.size();
-                    logQueue.clear();
-                    System.out.println("Log written to " + logFilePath.toAbsolutePath());
-                    // if (currentLogEntries >= expectedLogEntries) {
-                    //     System.out.println("\nReceived all expected log entries. Exiting.");
-                    //     break;
-                    // }
-                }
-                Thread.sleep(100); // Sleep for a while to wait for more transactions.
+                    Files.writeString(
+                        logFilePath,
+                        entry + System.lineSeparator(),
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.APPEND
+                    );
             }
 
         } catch (Exception e) {
