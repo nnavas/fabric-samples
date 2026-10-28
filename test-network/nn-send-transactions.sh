@@ -25,7 +25,7 @@ ORG2_CA="${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org
 for ((i=0; i<ITERATIONS; i++)); do
 
     # Set unique asset ID
-    ASSET_ID="nuevoF${i}"
+    ASSET_ID="nuevoA${i}"
 
     # Generate new owner
     OWNER="Rufy${i}"
