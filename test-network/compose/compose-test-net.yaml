@@ -121,7 +121,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com:/etc/hyperledger/fabric
       - peer0.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -195,7 +195,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10001
       - CORE_PEER_CHAINCODEADDRESS=peer1.org1.example.com:10002
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10002
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:10001
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:10001
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -207,7 +207,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com:/etc/hyperledger/fabric
       - peer1.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -236,7 +236,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10011
       - CORE_PEER_CHAINCODEADDRESS=peer2.org1.example.com:10012
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10012
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.org1.example.com:10011
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.org1.example.com:10011
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -248,7 +248,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer2.org1.example.com:/etc/hyperledger/fabric
       - peer2.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -277,7 +277,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10021
       - CORE_PEER_CHAINCODEADDRESS=peer3.org1.example.com:10022
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10022
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer3.org1.example.com:10021
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.org1.example.com:10021
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -289,7 +289,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer3.org1.example.com:/etc/hyperledger/fabric
       - peer3.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -318,7 +318,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10031
       - CORE_PEER_CHAINCODEADDRESS=peer4.org1.example.com:10032
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10032
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer4.org1.example.com:10031
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.org1.example.com:10031
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -330,7 +330,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer4.org1.example.com:/etc/hyperledger/fabric
       - peer4.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -359,7 +359,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10041
       - CORE_PEER_CHAINCODEADDRESS=peer5.org1.example.com:10042
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10042
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer5.org1.example.com:10041
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer5.org1.example.com:10041
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -371,7 +371,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer5.org1.example.com:/etc/hyperledger/fabric
       - peer5.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -400,7 +400,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
       - CORE_PEER_CHAINCODEADDRESS=peer6.org1.example.com:10052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer6.org1.example.com:10051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer6.org1.example.com:10051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -412,7 +412,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer6.org1.example.com:/etc/hyperledger/fabric
       - peer6.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -441,7 +441,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10061
       - CORE_PEER_CHAINCODEADDRESS=peer7.org1.example.com:10062
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10062
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer7.org1.example.com:10061
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer7.org1.example.com:10061
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -453,7 +453,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer7.org1.example.com:/etc/hyperledger/fabric
       - peer7.org1.example.com:/var/hyperledger/
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -482,7 +482,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10071
       - CORE_PEER_CHAINCODEADDRESS=peer8.org1.example.com:10072
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10072
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer8.org1.example.com:10071
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer8.org1.example.com:10071
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -494,7 +494,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer8.org1.example.com:/etc/hyperledger/fabric
       - peer8.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -523,7 +523,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10081
       - CORE_PEER_CHAINCODEADDRESS=peer9.org1.example.com:10082
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10082
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer9.org1.example.com:10081
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer9.org1.example.com:10081
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -535,7 +535,7 @@ services:
       - ../organizations/peerOrganizations/org1.example.com/peers/peer9.org1.example.com:/etc/hyperledger/fabric
       - peer9.org1.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -567,7 +567,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20001
       - CORE_PEER_CHAINCODEADDRESS=peer1.org2.example.com:20002
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20002
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:20001
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:20001
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -579,7 +579,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com:/etc/hyperledger/fabric
       - peer1.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -608,7 +608,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20011
       - CORE_PEER_CHAINCODEADDRESS=peer2.org2.example.com:20012
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20012
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.org2.example.com:20011
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.org2.example.com:20011
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -620,7 +620,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer2.org2.example.com:/etc/hyperledger/fabric
       - peer2.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -649,7 +649,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20021
       - CORE_PEER_CHAINCODEADDRESS=peer3.org2.example.com:20022
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20022
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer3.org2.example.com:20021
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.org2.example.com:20021
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -661,7 +661,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer3.org2.example.com:/etc/hyperledger/fabric
       - peer3.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -690,7 +690,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20031
       - CORE_PEER_CHAINCODEADDRESS=peer4.org2.example.com:20032
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20032
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer4.org2.example.com:20031
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.org2.example.com:20031
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -702,7 +702,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer4.org2.example.com:/etc/hyperledger/fabric
       - peer4.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -731,7 +731,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20041
       - CORE_PEER_CHAINCODEADDRESS=peer5.org2.example.com:20042
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20042
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer5.org2.example.com:20041
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer5.org2.example.com:20041
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -743,7 +743,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer5.org2.example.com:/etc/hyperledger/fabric
       - peer5.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -772,7 +772,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20051
       - CORE_PEER_CHAINCODEADDRESS=peer6.org2.example.com:20052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer6.org2.example.com:20051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer6.org2.example.com:20051
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -784,7 +784,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer6.org2.example.com:/etc/hyperledger/fabric
       - peer6.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -813,7 +813,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20061
       - CORE_PEER_CHAINCODEADDRESS=peer7.org2.example.com:20062
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20062
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer7.org2.example.com:20061
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer7.org2.example.com:20061
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -825,7 +825,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer7.org2.example.com:/etc/hyperledger/fabric
       - peer7.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -854,7 +854,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20071
       - CORE_PEER_CHAINCODEADDRESS=peer8.org2.example.com:20072
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20072
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer8.org2.example.com:20071
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer8.org2.example.com:20071
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -866,7 +866,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer8.org2.example.com:/etc/hyperledger/fabric
       - peer8.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -895,7 +895,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:20081
       - CORE_PEER_CHAINCODEADDRESS=peer9.org2.example.com:20082
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:20082
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer9.org2.example.com:20081
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer9.org2.example.com:20081
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -907,7 +907,7 @@ services:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer9.org2.example.com:/etc/hyperledger/fabric
       - peer9.org2.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -951,7 +951,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com:/etc/hyperledger/fabric
       - peer0.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -980,7 +980,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30011
       - CORE_PEER_CHAINCODEADDRESS=peer1.org3.example.com:30012
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30012
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org3.example.com:30011
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org3.example.com:30011
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -992,7 +992,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer1.org3.example.com:/etc/hyperledger/fabric
       - peer1.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1021,7 +1021,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30021
       - CORE_PEER_CHAINCODEADDRESS=peer2.org3.example.com:30022
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30022
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.org3.example.com:30021
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.org3.example.com:30021
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1033,7 +1033,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer2.org3.example.com:/etc/hyperledger/fabric
       - peer2.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1062,7 +1062,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30031
       - CORE_PEER_CHAINCODEADDRESS=peer3.org3.example.com:30032
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30032
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer3.org3.example.com:30031
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.org3.example.com:30031
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1074,7 +1074,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer3.org3.example.com:/etc/hyperledger/fabric
       - peer3.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1103,7 +1103,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30041
       - CORE_PEER_CHAINCODEADDRESS=peer4.org3.example.com:30042
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30042
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer4.org3.example.com:30041
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.org3.example.com:30041
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1115,7 +1115,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer4.org3.example.com:/etc/hyperledger/fabric
       - peer4.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1144,7 +1144,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30051
       - CORE_PEER_CHAINCODEADDRESS=peer5.org3.example.com:30052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer5.org3.example.com:30051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer5.org3.example.com:30051
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1156,7 +1156,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer5.org3.example.com:/etc/hyperledger/fabric
       - peer5.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1185,7 +1185,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30061
       - CORE_PEER_CHAINCODEADDRESS=peer6.org3.example.com:30062
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30062
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer6.org3.example.com:30061
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer6.org3.example.com:30061
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1197,7 +1197,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer6.org3.example.com:/etc/hyperledger/fabric
       - peer6.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1226,7 +1226,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30071
       - CORE_PEER_CHAINCODEADDRESS=peer7.org3.example.com:30072
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30072
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer7.org3.example.com:30071
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer7.org3.example.com:30071
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1238,7 +1238,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer7.org3.example.com:/etc/hyperledger/fabric
       - peer7.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1267,7 +1267,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30081
       - CORE_PEER_CHAINCODEADDRESS=peer8.org3.example.com:30082
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30082
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer8.org3.example.com:30081
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer8.org3.example.com:30081
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1279,7 +1279,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer8.org3.example.com:/etc/hyperledger/fabric
       - peer8.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
@@ -1308,7 +1308,7 @@ services:
       - CORE_PEER_LISTENADDRESS=0.0.0.0:30091
       - CORE_PEER_CHAINCODEADDRESS=peer9.org3.example.com:30092
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:30092
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer9.org3.example.com:30091
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:30001
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer9.org3.example.com:30091
       - CORE_PEER_LOCALMSPID=Org3MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
@@ -1320,7 +1320,7 @@ services:
       - ../organizations/peerOrganizations/org3.example.com/peers/peer9.org3.example.com:/etc/hyperledger/fabric
       - peer9.org3.example.com:/var/hyperledger/production
       # NN: Replace the peer binary with the one built from source code
-      - ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
+      #- ../nn-peer-multicast-tree/peer:/usr/local/bin/peer
     working_dir: /root
     command: peer node start
     ports:
