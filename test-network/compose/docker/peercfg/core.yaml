@@ -110,7 +110,7 @@ peer:
         # "leader" selection, where leader is the peer to establish
         # connection with ordering service and use delivery protocol
         # to pull ledger blocks from ordering service.
-        useLeaderElection: true
+        useLeaderElection: false
         # Statically defines peer to be an organization "leader",
         # where this means that current peer will maintain connection
         # with ordering service and disseminate block across peers in
